@@ -1,0 +1,124 @@
+/* The ticket office (/admin) borrows FlexTag's design language wholesale:
+   deep navy, purple→cyan accent, glass panels, Inter. Everything is scoped
+   under .fx so none of it leaks into the retro public site. */
+@import "./admin-ui.css";
+
+.fx {
+  color-scheme: dark;
+  --bg: #050816;
+  --bg-2: #0b0f24;
+  --nav-rgb: 5, 8, 22;
+  --ink-rgb: 255, 255, 255;
+  --border: rgba(255, 255, 255, 0.08);
+  --purple: #7c3aed;
+  --purple-light: #a78bfa;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --text-dim: rgba(255, 255, 255, 0.25);
+  --violet-ink: #a78bfa;
+  --green-ink: #4ade80;
+  --cyan-ink: #67e8f9;
+  --amber-ink: #fbbf24;
+  --rose-ink: #f87171;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --grad: linear-gradient(135deg, #7c3aed, #06b6d4);
+  --btn-bg: #ffffff;
+  --btn-bg-hover: #e6e4f0;
+  --btn-fg: #0b0a14;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.45);
+
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.fx[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f6fb;
+  --bg-2: #ffffff;
+  --nav-rgb: 248, 249, 253;
+  --ink-rgb: 0, 0, 0;
+  --border: rgba(0, 0, 0, 0.1);
+  --text: #000000;
+  --text-muted: rgba(0, 0, 0, 0.62);
+  --text-dim: rgba(0, 0, 0, 0.38);
+  --violet-ink: #6d28d9;
+  --green-ink: #15803d;
+  --cyan-ink: #0e7490;
+  --amber-ink: #b45309;
+  --rose-ink: #b91c1c;
+  --btn-bg: #16141f;
+  --btn-bg-hover: #2a2739;
+  --btn-fg: #ffffff;
+  --shadow-md: 0 8px 24px rgba(31, 41, 84, 0.08), 0 2px 6px rgba(31, 41, 84, 0.05);
+  --shadow-lg: 0 20px 48px rgba(31, 41, 84, 0.12), 0 4px 12px rgba(31, 41, 84, 0.06);
+}
+
+.fx ::selection { background: rgba(124, 58, 237, 0.25); color: var(--violet-ink); }
+.fx ::-webkit-scrollbar { width: 5px; height: 5px; }
+.fx ::-webkit-scrollbar-track { background: var(--bg); }
+.fx ::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.35); border-radius: 10px; }
+.fx ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
+.fx .tnum { font-variant-numeric: tabular-nums; }
+
+/* ambient */
+.fx .bg-grid {
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(to right, rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+}
+.fx .glow-purple { background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%); }
+.fx .glow-cyan { background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%); }
+.fx .gradient-text {
+  background: linear-gradient(120deg, var(--purple-light), var(--purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* shell */
+.fx .side {
+  position: fixed; top: 0; left: 0; height: 100svh; width: 256px; z-index: 40;
+  display: flex; flex-direction: column;
+  background: rgba(var(--nav-rgb), 0.98);
+  backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(var(--ink-rgb), 0.06);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fx .side::before { content: ""; display: block; height: 2px; background: var(--purple); flex-shrink: 0; }
+.fx .side-head { height: 72px; display: flex; align-items: center; gap: 10px; padding: 0 20px; border-bottom: 1px solid rgba(var(--ink-rgb), 0.05); flex-shrink: 0; }
+.fx .side-link {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 10px 12px; border-radius: 12px; position: relative;
+  font-size: 13px; font-weight: 400; color: rgba(var(--ink-rgb), 0.45);
+  background: transparent; border: 1px solid transparent; cursor: pointer; text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+}
+.fx .side-link:hover { color: var(--text); background: rgba(var(--ink-rgb), 0.04); }
+.fx .side-link.active { color: var(--text); font-weight: 600; background: rgba(124, 58, 237, 0.12); border-color: rgba(124, 58, 237, 0.25); }
+.fx .side-link.active::before { content: ""; position: absolute; left: -10px; top: 22%; bottom: 22%; width: 2.5px; border-radius: 3px; background: var(--purple); }
+.fx .side-link svg { flex-shrink: 0; opacity: 0.5; }
+.fx .side-link.active svg { opacity: 1; color: var(--violet-ink); }
+.fx .topbar {
+  position: sticky; top: 0; z-index: 30; height: 64px;
+  display: flex; align-items: center; gap: 12px; padding: 0 24px;
+  background: rgba(var(--nav-rgb), 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.06);
+}
+@media (max-width: 1023px) {
+  .fx .side { transform: translateX(-110%); box-shadow: none; }
+  .fx .side.open { transform: translateX(0); box-shadow: 0 0 60px rgba(0, 0, 0, 0.6); }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-// Gold comet cursor trail (KIKK-inspired, upgraded).
+// Rust-to-mustard comet cursor trail (KIKK-inspired, upgraded).
 // One SVG layer under the cursor dot/ring (z-300 vs 399/400), above grain (200):
 //   halo   — soft blurred gradient polyline under the ribbon
 //   ribbon — smooth variable-width polygon through 50 chained points,
@@ -15,8 +15,8 @@ const SEGMENTS = 50;
 const BASE_EASE = 0.55;
 const BASE_WIDTH = 28;
 const SVG_NS = "http://www.w3.org/2000/svg";
-const RAMP = ["#a87a00", "#cf9700", "#eab200", "#ffd400", "#ffe66b"];
-const HOT_RGB = [255, 223, 64];
+const RAMP = ["#8e3414", "#b5471e", "#c9711f", "#d9a427", "#f0c75b"];
+const HOT_RGB = [217, 164, 39];
 const HOT_SELECTOR = "a, button, .show-tile, .svc-row";
 const DUST_POOL = 90;
 const RING_POOL = 4;
@@ -121,10 +121,22 @@ export default function CursorTrail() {
     }
     let idle = 999, hotF = 0, hotTarget = 0, vel = 0, emitAcc = 0, t = 0;
     let prevT = { x: mouse.x, y: mouse.y };
+    // nothing is drawn until the pointer actually moves — no comet swimming into the hero on load
+    let seen = false;
+    svg.style.visibility = "hidden";
 
     const onMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
+      if (!seen) {
+        seen = true;
+        for (const p of pts) {
+          p.x = e.clientX;
+          p.y = e.clientY;
+        }
+        prevT = { x: e.clientX, y: e.clientY };
+        svg.style.visibility = "visible";
+      }
       idle = 0;
       hotTarget = e.target && e.target.closest && e.target.closest(HOT_SELECTOR) ? 1 : 0;
     };
@@ -140,6 +152,10 @@ export default function CursorTrail() {
 
     let raf;
     const tick = () => {
+      if (!seen) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
       t += 1 / 60;
       idle++;
 

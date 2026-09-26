@@ -1,0 +1,47 @@
+/* FlexTag component vocabulary (part 2: fields, badges, tabs, feedback, chart bits). */
+
+.fx .field-label { display: block; font-size: 12.5px; font-weight: 500; color: var(--text-muted); margin-bottom: 7px; }
+.fx .field-input, .fx .field-select, .fx .field-textarea {
+  width: 100%; background: rgba(var(--ink-rgb), 0.04); border: 1px solid rgba(var(--ink-rgb), 0.1); border-radius: 10px;
+  padding: 11px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+.fx .field-input::placeholder, .fx .field-textarea::placeholder { color: var(--text-dim); }
+.fx .field-input:focus, .fx .field-select:focus, .fx .field-textarea:focus { border-color: rgba(124, 58, 237, 0.5); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1); background: rgba(124, 58, 237, 0.04); }
+.fx .field-input[aria-invalid="true"], .fx .field-select[aria-invalid="true"] { border-color: rgba(239, 68, 68, 0.5); }
+.fx .field-select { cursor: pointer; }
+.fx .field-select option { background: var(--bg-2); color: var(--text); }
+.fx .field-error { margin-top: 6px; font-size: 12px; color: #f87171; }
+.fx .check { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+.fx .check input { accent-color: var(--purple); width: 15px; height: 15px; }
+
+.fx .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+.fx .badge-success { background: rgba(34, 197, 94, 0.12); color: var(--green-ink); border: 1px solid rgba(34, 197, 94, 0.25); }
+.fx .badge-warning { background: rgba(245, 158, 11, 0.12); color: var(--amber-ink); border: 1px solid rgba(245, 158, 11, 0.25); }
+.fx .badge-error { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.25); }
+.fx .badge-info { background: rgba(124, 58, 237, 0.12); color: var(--violet-ink); border: 1px solid rgba(124, 58, 237, 0.25); }
+.fx .badge-cyan { background: rgba(6, 182, 212, 0.12); color: var(--cyan-ink); border: 1px solid rgba(6, 182, 212, 0.25); }
+.fx .badge-neutral { background: rgba(var(--ink-rgb), 0.05); color: var(--text-muted); border: 1px solid rgba(var(--ink-rgb), 0.1); }
+
+.fx .tabs { display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: rgba(var(--ink-rgb), 0.04); border: 1px solid rgba(var(--ink-rgb), 0.06); width: fit-content; max-width: 100%; overflow-x: auto; }
+.fx .tab { padding: 8px 14px; border-radius: 9px; font-size: 13px; font-weight: 500; color: var(--text-muted); background: transparent; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; transition: background-color 0.15s, color 0.15s; }
+.fx .tab:hover { color: var(--text); }
+.fx .tab.active { color: var(--text); background: rgba(var(--ink-rgb), 0.08); font-weight: 600; }
+
+.fx .spinner { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(124, 58, 237, 0.2); border-top-color: #7c3aed; animation: fx-spin 0.75s linear infinite; }
+@keyframes fx-spin { to { transform: rotate(360deg); } }
+.fx .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; border: 1px dashed rgba(var(--ink-rgb), 0.08); border-radius: 20px; text-align: center; color: var(--text-dim); font-size: 13px; }
+.fx .toast { position: fixed; right: 24px; bottom: 24px; z-index: 60; padding: 12px 16px; border-radius: 12px; background: var(--bg-2); border: 1px solid rgba(124, 58, 237, 0.35); color: var(--text); font-size: 13px; box-shadow: var(--shadow-lg); animation: fx-up 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.fx .toast.error { border-color: rgba(239, 68, 68, 0.4); }
+@keyframes fx-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.fx .fade-in { animation: fx-fade 0.4s ease-out; }
+@keyframes fx-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* charts */
+.fx .bar-track { height: 8px; border-radius: 999px; background: rgba(var(--ink-rgb), 0.06); overflow: hidden; }
+.fx .bar-fill { height: 100%; border-radius: 999px; background: var(--grad); }
+.fx .bar-fill.cyan { background: linear-gradient(90deg, #06b6d4, #67e8f9); }
+.fx .bar-fill.green { background: linear-gradient(90deg, #16a34a, #4ade80); }
+.fx .bar-fill.amber { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.fx .bar-fill.pink { background: linear-gradient(90deg, #db2777, #f9a8d4); }
+.fx .bar-fill.dim { background: rgba(var(--ink-rgb), 0.2); }

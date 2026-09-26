@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import SmoothScroll from "./SmoothScroll";
 import Loader from "./components/Loader";
 import Cursor from "./components/Cursor";
@@ -10,8 +10,45 @@ import Showcase from "./components/Showcase";
 import Footer from "./components/Footer";
 import RegisterModal from "./components/RegisterModal";
 
+/* Three doors, chosen by path: the show, a guest's own pages, and the ticket office. */
+const Admin = lazy(() => import("./components/Admin"));
+const Login = lazy(() => import("./pages/Login"));
+const Account = lazy(() => import("./pages/Account"));
+const Pay = lazy(() => import("./pages/Pay"));
+
+const path = window.location.pathname.replace(/\/+$/, "") || "/";
+const PAGES = { "/login": Login, "/account": Account };
+// /pay/<ref> is the checkout counter
+const payRef = path.startsWith("/pay/") ? path.slice(5) : "";
+
 export default function App() {
   const [started, setStarted] = useState(false);
+
+  if (path === "/admin") {
+    return (
+      <Suspense fallback={<div className="min-h-svh bg-cream" />}>
+        <Admin />
+      </Suspense>
+    );
+  }
+
+  // the guest pages wear the site's chrome, without the curtain and the film
+  const Page = payRef ? Pay : PAGES[path];
+  if (Page) {
+    return (
+      <>
+        <Cursor />
+        <CursorTrail />
+        <Nav />
+        <Suspense fallback={<div className="min-h-svh" />}>
+          <Page />
+        </Suspense>
+        <Footer />
+        <RegisterModal />
+        <div className="poster-frame" aria-hidden="true" />
+      </>
+    );
+  }
 
   return (
     <SmoothScroll>
@@ -26,7 +63,7 @@ export default function App() {
       </main>
       <Footer />
       <RegisterModal />
-      <div className="grain" />
+      <div className="poster-frame" aria-hidden="true" />
     </SmoothScroll>
   );
 }

@@ -1,0 +1,22 @@
+{
+  "name": "archer-backend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Archer Events API — Express 5 + MongoDB, with an in-memory fallback until the database is connected",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch index.js",
+    "start": "node --env-file-if-exists=.env index.js",
+    "seed": "node --env-file-if-exists=.env seed.js",
+    "admin:create": "node --env-file-if-exists=.env scripts/create-admin.js",
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.6.0"
+  }
+}

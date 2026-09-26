@@ -1,0 +1,183 @@
+/* Vintage furniture: buttons, frames, sunburst, brand bands, ticket perforation, nav rule. */
+@layer components {
+  /* buttons: rust block with an inner cream hairline, flips to ink/mustard */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 34px;
+    font-family: var(--font-label);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--color-cream);
+    background: var(--color-rust);
+    border: 2px solid var(--color-rust);
+    box-shadow:
+      inset 0 0 0 3px var(--color-rust),
+      inset 0 0 0 4px rgba(242, 224, 190, 0.85);
+    transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    will-change: transform;
+  }
+  .btn:hover {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-mustard);
+    box-shadow:
+      inset 0 0 0 3px var(--color-ink),
+      inset 0 0 0 4px rgba(217, 164, 39, 0.85);
+  }
+  .btn.ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+    box-shadow:
+      inset 0 0 0 3px transparent,
+      inset 0 0 0 4px rgba(27, 24, 21, 0.35);
+  }
+  .btn.ghost:hover {
+    background: var(--color-ink);
+    color: var(--color-cream);
+    box-shadow:
+      inset 0 0 0 3px var(--color-ink),
+      inset 0 0 0 4px rgba(242, 224, 190, 0.6);
+  }
+  /* the nav's ghost button while the bar still floats over the dark hero film */
+  .btn.ghost.on-hero,
+  .on-dark .btn.ghost {
+    color: var(--color-cream);
+    border-color: var(--color-cream);
+    box-shadow:
+      inset 0 0 0 3px transparent,
+      inset 0 0 0 4px rgba(242, 224, 190, 0.35);
+  }
+  .btn.ghost.on-hero:hover,
+  .on-dark .btn.ghost:hover {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    box-shadow:
+      inset 0 0 0 3px var(--color-cream),
+      inset 0 0 0 4px rgba(27, 24, 21, 0.5);
+  }
+
+  /* double-rule frame (set --frame-c to recolour) */
+  .frame {
+    position: relative;
+    border: 2px solid var(--frame-c, var(--color-ink));
+  }
+  .frame::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--frame-c, var(--color-ink));
+    pointer-events: none;
+  }
+
+  /* sunburst: slow-turning mustard rays, fading out radially */
+  .sunburst {
+    position: absolute;
+    inset: -30%;
+    pointer-events: none;
+    background: repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      rgba(217, 164, 39, 0.16) 0deg 5deg,
+      transparent 5deg 12deg
+    );
+    -webkit-mask: radial-gradient(ellipse 42% 42% at 50% 50%, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 72%);
+    mask: radial-gradient(ellipse 42% 42% at 50% 50%, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 72%);
+    animation: var(--animate-sunburst);
+    will-change: transform;
+  }
+
+  /* brand bands: rust / cream / olive */
+  .stripes {
+    height: 14px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-rust) 0 7px,
+      var(--color-cream) 7px 9px,
+      var(--color-olive) 9px 14px
+    );
+  }
+
+  /* ticket perforation with side notches */
+  .perf {
+    position: relative;
+    height: 0;
+    margin: 0 10px;
+    border-top: 2px dashed rgba(181, 71, 30, 0.5);
+  }
+  .perf::before,
+  .perf::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-cream);
+    box-shadow: inset 0 0 0 1.5px rgba(181, 71, 30, 0.35);
+  }
+  .perf::before {
+    left: -24px;
+  }
+  .perf::after {
+    right: -24px;
+  }
+
+  /* nav: second hairline under the solid bar */
+  .nav-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: var(--color-ink);
+  }
+}
+
+/* ── the poster frame ──
+   The reference is a printed sheet: a dark rule, then orange, olive and cream
+   bands stepping inward. It wraps the page rather than any one section. */
+@layer components {
+  .poster-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    border: 9px solid var(--color-ink);
+    box-shadow:
+      inset 0 0 0 5px var(--color-cream),
+      inset 0 0 0 12px var(--color-rust),
+      inset 0 0 0 17px var(--color-cream),
+      inset 0 0 0 21px var(--color-olive),
+      inset 0 0 0 25px var(--color-cream);
+  }
+  @media (max-width: 860px) {
+    .poster-frame {
+      border-width: 6px;
+      box-shadow:
+        inset 0 0 0 3px var(--color-cream),
+        inset 0 0 0 8px var(--color-rust),
+        inset 0 0 0 11px var(--color-cream),
+        inset 0 0 0 14px var(--color-olive),
+        inset 0 0 0 17px var(--color-cream);
+    }
+  }
+
+  /* the printed band that closes a section, same three inks as the frame */
+  .rule-bands {
+    height: 10px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-rust) 0 4px,
+      var(--color-cream) 4px 6px,
+      var(--color-olive) 6px 10px
+    );
+  }
+}

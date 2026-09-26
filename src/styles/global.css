@@ -1,53 +1,38 @@
 @import "tailwindcss";
-
-/* Self-hosted Fontshare faces (ITF Free Font License — see public/fonts) */
-@font-face {
-  font-family: "Clash Display";
-  src: url("/fonts/ClashDisplay-Variable.woff2") format("woff2");
-  font-weight: 200 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
-  font-weight: 300 900;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-VariableItalic.woff2") format("woff2");
-  font-weight: 300 900;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Melodrama";
-  src: url("/fonts/Melodrama-Variable.woff2") format("woff2");
-  font-weight: 300 700;
-  font-display: swap;
-}
+@import "./components.css";
+@import "./chrome.css";
 
 @theme {
-  /* brand palette */
-  --color-bg: #f4f3ee;
-  --color-bg2: #ebe9e2;
-  --color-dark: #0c0b08;
-  --color-dark2: #14120d;
-  --color-ink: #0a0a0a;
-  --color-paper: #f6f5f1;
-  --color-dim: rgba(10, 10, 10, 0.58);
-  --color-faint: rgba(10, 10, 10, 0.32);
-  --color-paper-dim: rgba(246, 245, 241, 0.55);
-  --color-gold: #cf9700;
-  --color-goldb: #ffd400;
-  --color-line: rgba(10, 10, 10, 0.12);
-  --color-linel: rgba(246, 245, 241, 0.12);
+  /* brand palette — lifted straight from the crest artwork */
+  --color-cream: #f2e3c0;
+  --color-cream2: #e6d2a4;
+  --color-cream3: #f9efd6;
+  --color-ink: #2a1d12;
+  --color-ink2: #3a2917;
+  --color-char: #2b302d;
+  --color-rust: #b8501f;
+  --color-rust2: #8f3a12;
+  --color-mustard: #de7a2e;
+  --color-mustard2: #f0b25a;
+  --color-olive: #7e8a6a;
+  --color-orange: #e2762e;
+  --color-coffee: #5a4028;
+  --color-dim: rgba(42, 29, 18, 0.64);
+  --color-faint: rgba(42, 29, 18, 0.38);
+  --color-line: rgba(42, 29, 18, 0.16);
+  --color-paper-dim: rgba(242, 227, 192, 0.6);
+  --color-linel: rgba(242, 227, 192, 0.16);
 
-  --font-display: "Clash Display", "Anton", "Archivo Black", sans-serif;
-  --font-body: "Satoshi", "Archivo", "Helvetica Neue", sans-serif;
-  --font-fancy: "Melodrama", "Didot", "Bodoni MT", serif;
+  /* type: Tuscan crest face, poster slab, condensed gothic labels, book serif body, Didone italic flourish */
+  --font-crest: "Sancreek", "Rye", Georgia, serif;
+  --font-display: "Alfa Slab One", "Rockwell Extra Bold", Georgia, serif;
+  --font-label: "Oswald", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --font-body: "Lora", Georgia, "Times New Roman", serif;
+  --font-fancy: "Playfair Display", "Didot", "Bodoni MT", serif;
+  /* the ticket office (/admin) is a plain modern tool, not part of the show */
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* golden-ratio type scale (φ = 1.618, base 17px).
+  /* golden-ratio type scale (phi = 1.618, base 17px).
      Ladder: 10.5 / 17 / 27.5 / 44.5 / 72 / 116.5 / 188.5;
      fluid steps clamp between ladder rungs. */
   --text-fine: 10.5px;
@@ -55,24 +40,17 @@
   --text-lead: clamp(17px, 1.5vw, 27.5px);
   --text-cardtitle: clamp(17px, 1.8vw, 27.5px);
   --text-quote: clamp(27.5px, 3vw, 44.5px);
-  --text-heading: clamp(44.5px, 5.5vw, 72px);
+  --text-heading: clamp(40px, 5vw, 66px);
   --text-big: clamp(44.5px, 8.5vw, 116.5px);
   --text-hero: clamp(72px, 10.4vw, 188.5px);
 
   --leading-golden: 1.618;
 
   /* motion */
-  --animate-grain: grain-shift 0.9s steps(4) infinite;
   --animate-cue: cue-drop 1.8s ease-in-out infinite;
   --animate-cdpulse: cd-pulse 1.2s ease-in-out infinite alternate;
+  --animate-sunburst: sunburst-spin 90s linear infinite;
 
-  @keyframes grain-shift {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(-2%, 3%); }
-    50% { transform: translate(3%, -2%); }
-    75% { transform: translate(-3%, -3%); }
-    100% { transform: translate(2%, 2%); }
-  }
   @keyframes cue-drop {
     0%, 100% { transform: translateY(0); opacity: 1; }
     50% { transform: translateY(9px); opacity: 0.35; }
@@ -81,11 +59,16 @@
     from { opacity: 1; }
     to { opacity: 0.45; }
   }
+  @keyframes sunburst-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 }
 
 @layer base {
   html {
     scroll-behavior: auto;
+    color-scheme: light;
   }
   html.lenis,
   html.lenis body {
@@ -96,7 +79,7 @@
   }
 
   body {
-    background: var(--color-bg);
+    background: var(--color-cream);
     color: var(--color-ink);
     font-family: var(--font-body);
     font-size: var(--text-golden);
@@ -106,8 +89,8 @@
   }
 
   ::selection {
-    background: var(--color-goldb);
-    color: #0a0a0a;
+    background: var(--color-mustard);
+    color: var(--color-ink);
   }
 
   button {
@@ -116,173 +99,9 @@
   }
 }
 
-@layer components {
-  /* ── film grain ── */
-  .grain {
-    position: fixed;
-    inset: -100%;
-    z-index: 200;
-    pointer-events: none;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    animation: var(--animate-grain);
-  }
-
-  /* ── custom cursor (fine pointers only) ── */
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-  @media (pointer: fine) {
-    .cursor-dot {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 400;
-      width: 8px;
-      height: 8px;
-      margin: -4px 0 0 -4px;
-      border-radius: 50%;
-      background: var(--color-goldb);
-      pointer-events: none;
-      mix-blend-mode: difference;
-    }
-    .cursor-ring {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 399;
-      width: 38px;
-      height: 38px;
-      margin: -19px 0 0 -19px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(207, 151, 0, 0.55);
-      pointer-events: none;
-      transition: width 0.25s, height 0.25s, margin 0.25s, border-color 0.25s;
-    }
-    .cursor-ring.hot {
-      width: 64px;
-      height: 64px;
-      margin: -32px 0 0 -32px;
-      border-color: var(--color-goldb);
-    }
-  }
-
-  /* ── shared section chrome ── */
-  .section {
-    position: relative;
-    padding: 16vh 6vw;
-    max-width: 1560px;
-    margin: 0 auto;
-  }
-
-  .kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-size: var(--text-fine);
-    font-weight: 600;
-    letter-spacing: 0.38em;
-    text-transform: uppercase;
-    color: var(--color-gold);
-    margin-bottom: 26px;
-  }
-  .kicker::before {
-    content: "";
-    width: 26px;
-    height: 2px;
-    background: var(--color-gold);
-    transform: skewX(-30deg);
-  }
-  .on-dark .kicker {
-    color: var(--color-goldb);
-  }
-  .on-dark .kicker::before {
-    background: var(--color-goldb);
-  }
-
-  .h-display {
-    font-family: var(--font-display);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: -0.015em;
-    line-height: 0.96;
-  }
-
-  .lead {
-    color: var(--color-dim);
-    font-size: var(--text-lead);
-    line-height: var(--leading-golden);
-    max-width: 46ch;
-  }
-
-  /* ── char-split helpers (generated by utils/split.jsx, driven by GSAP) ── */
-  .split-line {
-    display: block;
-    overflow: hidden;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
-  }
-  .split-line .ch {
-    display: inline-block;
-    transform: translateY(115%) rotate(6deg);
-    transform-origin: 0 100%;
-    will-change: transform;
-  }
-  .split-line .sp {
-    display: inline-block;
-    width: 0.28em;
-  }
-
-  /* ── buttons (shared across light + dark contexts) ── */
-  .btn {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 17px 38px;
-    font-size: var(--text-fine);
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #0a0a0a;
-    background: var(--color-goldb);
-    border: none;
-    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-    transition: background 0.3s, color 0.3s;
-    overflow: hidden;
-    will-change: transform;
-  }
-  .btn:hover {
-    background: #0a0a0a;
-    color: var(--color-goldb);
-  }
-  .btn.ghost {
-    background: transparent;
-    color: var(--color-ink);
-    box-shadow: inset 0 0 0 1px rgba(10, 10, 10, 0.35);
-  }
-  .btn.ghost:hover {
-    box-shadow: inset 0 0 0 1px var(--color-gold);
-    color: var(--color-gold);
-    background: transparent;
-  }
-  .on-dark .btn.ghost {
-    color: var(--color-paper);
-    box-shadow: inset 0 0 0 1px rgba(246, 245, 241, 0.35);
-  }
-  .on-dark .btn.ghost:hover {
-    color: var(--color-goldb);
-    box-shadow: inset 0 0 0 1px var(--color-goldb);
-  }
-
-}
-
-/* ── accessibility ── */
+/* accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .grain { animation: none; }
+  .sunburst { animation: none; }
   .split-line .ch { transform: none; }
   .cursor-dot, .cursor-ring { display: none; }
 }
